@@ -1,5 +1,6 @@
 // Estrae e validare il token JWT dalla richiesta HTTP, se presente.
-// Se il token è valido, aggiunge le informazioni dell'utente alla richiesta e consente l'accesso alle rotte protette. Altrimenti, restituisce un errore di autorizzazione.
+// Se il token è valido, aggiunge le informazioni dell'utente alla richiesta e consente l'accesso alle rotte protette. 
+// Altrimenti, restituisce un errore di autorizzazione.
 
 // ============================================================
 // REVISIONE  –  P1
@@ -21,3 +22,8 @@
 //    Se manca, la risposta deve essere 401, non "passa lo stesso".
 //
 // Priorità: è la DIPENDENZA CRITICA della pipeline -> va su main per primo.
+
+import passport from "passport";
+
+// Middleware di autenticazione JWT
+export const authenticateJWT = passport.authenticate("jwt", { session: false });

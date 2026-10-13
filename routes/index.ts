@@ -13,3 +13,26 @@
 //
 // Bonus: una rotta GET "/health" che risponde { status: "ok" },
 // comoda per controllare che il server sia acceso.
+
+import { Router } from "express";
+import authRoutes from "./auth.routes";
+import tmdbRoutes from "./tmdb.routes";
+import mediaRoutes from "./media.routes";
+import listaRoutes from "./lista.routes";
+import commentRoutes from "./comment.routes";
+
+const router = Router();
+
+router.use("/auth", authRoutes);
+router.use("/tmdb", tmdbRoutes);
+router.use("/media", mediaRoutes);
+router.use("/liste", listaRoutes);
+router.use("/", commentRoutes);
+
+// Bonus: una rotta GET "/health" che risponde { status: "ok" },
+// comoda per controllare che il server sia acceso.
+router.get("/health", (req, res) => {
+    res.json({ status: "ok" });
+});
+
+export default router;

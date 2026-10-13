@@ -12,3 +12,20 @@
 //     3. in caso di errore stampa l'errore e chiude il processo (process.exit(1))
 // - Questa funzione va chiamata in index.ts PRIMA di app.listen(...)
 //   (così il server non parte se il DB non risponde)
+
+import { error } from 'console';
+import mongoose from 'mongoose';
+
+async function connectDB(): Promise<void> {
+    try {
+        const mongoURI = process.env.MONGO_URI;
+
+        await mongoose.connect(mongoURI as string);
+        console.log('DB connesso');
+    } catch (error) {
+        console.error('Errore durante la connessione al database:', error);
+        process.exit(1); // Chiude il processo con codice di errore
+    }
+}
+
+export { connectDB };

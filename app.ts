@@ -17,19 +17,34 @@
 
 // ⚠️ "Express" è un TIPO, non un valore. Nel tsconfig c'è "verbatimModuleSyntax": true,
 //    quindi i tipi vanno importati con "import type" (o "type" davanti al nome).
-//    In più vi serve anche la funzione express() (export di default), es.:
-//    import di default "express" + il tipo Express.
-// ❌ Il pacchetto express non è ancora installato (non è nel package.json):
-//    bun add express  e  bun add -d @types/express
-import { Express } from "express";
+
+import type { Express } from "express";
+import express from "express";
+import passport from "passport";
+import "./config/passport.config";
+import routes from "./routes";
 
 // ❌ La classe "App" non esiste: non è definita né importata da nessuna parte.
 //    Avete due strade, scegliete UNA:
 //    a) SEMPLICE (consigliata): const app = express();  e poi gli app.use(...) qui sotto.
-//    b) A CLASSE: creare un file (es. App.ts) con una classe App che nel costruttore
-//       fa express() e registra middleware/rotte, e un metodo getApp() che la restituisce.
-//       Poi importarla qui. È più codice per lo stesso risultato.
-const app: Express = new App().getApp();
+
+const app: Express = express();
+app.use(express.json()); // ✅ Serve per leggere req.body (altrimenti è undefined).
+
+passport.initialize(); // ✅ Serve per usare Passport (autenticazione).
+
+app.use("/api", routes); // ❌ "routes" non è definito né importato da nessuna parte.
+
+// Middleware rotte non trovate
+app.use((req, res, next) => {
+    res.status(404).json({ message: "Not Found" });
+});  
+
+// Middleware gestione errori
+app.use((err: Error, req: any, res: any, next: any) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "Internal Server Error" });
+});
 
 // ✅ Export di default corretto: index.ts lo importa con "import app from './app'".
 export default app;

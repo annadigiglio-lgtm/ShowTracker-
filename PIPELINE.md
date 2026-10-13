@@ -19,8 +19,8 @@ Verifica intermedia Node.js, gruppo di 4 persone.
 
 Prima di scrivere codice, decidete insieme:
 
-- [ ] **Struttura delle cartelle**, ad esempio `routes/`, `controllers/`, `models/`, `middleware/`, `services/`, `config/`
-- [ ] **Modelli dei dati**: quali campi ha `User`, contenuto salvato, `Lista`, commento / valutazione, e come si collegano tra loro (chi possiede cosa)
+- [x] **Struttura delle cartelle**, ad esempio `routes/`, `controllers/`, `models/`, `middleware/`, `services/`, `config/`
+- [x] **Modelli dei dati**: quali campi ha `User`, contenuto salvato, `Lista`, commento / valutazione, e come si collegano tra loro (chi possiede cosa)
 - [ ] **Elenco degli endpoint**: metodo, URL, body richiesto, risposta. Scriveteli nella tabella qui sotto, così ognuno sa cosa aspettarsi dagli altri.
 - [ ] **Convenzioni**: formato delle risposte JSON e degli errori, nomi in italiano o in inglese, codici HTTP
 - [ ] **Repository GitHub** creata da P1, con gli altri 3 aggiunti come collaboratori
@@ -29,10 +29,11 @@ Prima di scrivere codice, decidete insieme:
 
 | Metodo | URL | Protetta? | Body | Risposta | Responsabile |
 |---|---|---|---|---|---|
-| | | | | | P1 |
-| | | | | | P2 |
-| | | | | | P3 |
-| | | | | | P4 |
+| GET | /utenti | Y | meh | lista utenti | P1 |
+| POST | /register | N | email, psw, nome, token | success or fail | P2 |
+| DELETE | /utenti | Y | id_user | success or fail | P3 |
+| POST | /comments | N | comment | ok | P4 |
+| GET | themoviedb.org/shows??? | Y | nome | Media | boh |
 
 ---
 

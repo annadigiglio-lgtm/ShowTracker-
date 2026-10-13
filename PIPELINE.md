@@ -33,7 +33,7 @@ Prima di scrivere codice, decidete insieme:
 | POST | /register | N | email, psw, nome, token | success or fail | P2 |
 | DELETE | /utenti | Y | id_user | success or fail | P3 |
 | POST | /comments | N | comment | ok | P4 |
-| GET | themoviedb.org/shows??? | Y | nome | Media | boh |
+| GET | themoviedb.org/movie | Y | nome | Media | boh |
 
 ---
 

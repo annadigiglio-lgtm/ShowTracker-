@@ -10,7 +10,7 @@
 - timestamp
 - contenuto
 
-# Lista salvataggi utente
+# Lista salvataggi utente ->  Saved
 - lista da guardare
 - lista già viste
 - lista preferiti

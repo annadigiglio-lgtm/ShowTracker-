@@ -1,0 +1,2 @@
+// Estrae e validare il token JWT dalla richiesta HTTP, se presente. 
+// Se il token è valido, aggiunge le informazioni dell'utente alla richiesta e consente l'accesso alle rotte protette. Altrimenti, restituisce un errore di autorizzazione.

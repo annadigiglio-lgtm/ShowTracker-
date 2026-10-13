@@ -35,6 +35,23 @@ Prima di scrivere codice, decidete insieme:
 | POST | /comments | N | comment | ok | P4 |
 | GET | themoviedb.org/movie | Y | nome | Media | boh |
 
+> **Revisione della tabella**
+> - ⚠️ **GET /utenti:** la consegna non chiede di vedere la lista di tutti gli utenti, e mostrarla a chiunque abbia un token sarebbe un problema di privacy. Al suo posto: `GET /auth/me`, cioè "i miei dati". Il body "meh" non va bene: una GET non ha body.
+> - ❌ **POST /register:**
+>   - il token **non** si manda alla registrazione, lo **crea il server al login**;
+>   - mancano proprio le rotte **login** e **logout**;
+>   - è un compito di **P1**, non di P2.
+> - ⚠️ **DELETE /utenti:** non è richiesta dalla consegna. Se la tenete, l'id **non** va nel body: l'utente da eliminare è quello del token (`req.user`), altrimenti chiunque potrebbe eliminare chiunque.
+> - ❌ **POST /comments:**
+>   - deve essere **protetta**, perché bisogna sapere chi commenta;
+>   - deve dire **su quale contenuto** si commenta, es. `POST /media/:mediaId/comments`;
+>   - "ok" non è una risposta: meglio **201** con il commento creato.
+> - ❌ **themoviedb.org/movie:** questo è l'indirizzo di **TMDb**, non una nostra rotta. Il client chiama il **nostro** server (es. `GET /api/tmdb/search?query=...`) e poi è il nostro server a chiamare TMDb. Responsabile: **P2**, non "boh".
+> - ⚠️ **Risposta:** "success or fail" va specificata, con status code e forma del JSON (vedi *Convenzioni* sopra).
+> - Mancano tutte le rotte delle **liste** (P3) e delle **valutazioni** (P4).
+>
+> Una proposta completa è in [docs/runtime.md](docs/runtime.md) §7: usatela come base e poi riscrivete questa tabella in modo definitivo.
+
 ---
 
 ## Fase 1 – Lavoro in parallelo

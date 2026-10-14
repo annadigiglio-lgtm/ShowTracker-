@@ -17,7 +17,7 @@
 import { Router } from "express";
 import { authenticateJWT } from "../middleware/auth.middleware";
 import bcrypt from "bcrypt";
-import User from "../models/User.model";
+import User from "../models/User.ts";
 import jwt from "jsonwebtoken";
 
 const router = Router();
@@ -94,8 +94,14 @@ router.post("/logout", authenticateJWT, (req, res) => {
     // I token JWT sono stateless, quindi non possono essere invalidati lato server.
     // Devono essere eliminati dal localStorage lato client
     // Lato server confermiamo l'operazine e cancelliamo cookie httpOnly se presenti
-
     res.clearCookie("token"); // Se stai usando cookie per il token, e non so se li sto usando... non credo
+
+    // Poichè abbiamo il campo token nello User (model), dobbiamo metterlo null 
+    // Così passport rifiuta il vecchio token al nuovo accesso 
+    const user = req.user as any;
+    user.token = null;
+    user.save();
+
     res.json({
         message: "User logged out. Please remove the token from your client."
     })

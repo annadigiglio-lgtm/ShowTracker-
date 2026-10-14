@@ -13,7 +13,6 @@
 // - Questa funzione va chiamata in index.ts PRIMA di app.listen(...)
 //   (così il server non parte se il DB non risponde)
 
-import { error } from 'console';
 import mongoose from 'mongoose';
 
 async function connectDB(): Promise<void> {

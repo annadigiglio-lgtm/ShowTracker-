@@ -12,3 +12,16 @@
 //
 // Attenzione all'ordine: "/search" va PRIMA di "/:tipo/:tmdbId",
 // altrimenti Express potrebbe confondere le due rotte.
+
+import { Router } from "express";
+import { authenticateJWT } from "../middleware/auth.middleware";
+import { search, detail } from "../controllers/tmdb.controller";
+
+const router = Router();
+
+router.use(authenticateJWT);
+
+router.get("/search", search);
+router.get("/:tipo/:tmdbId", detail);
+
+export default router;

@@ -13,3 +13,20 @@
 //
 // Le rotte dei commenti (/media/:mediaId/comments) sono di P4 e stanno
 // in routes/comment.routes.ts: non aggiungetele qui per evitare conflitti.
+
+import { Router } from "express";
+import { authenticateJWT } from "../middleware/auth.middleware";
+import { saveMedia, getMyMedia, getMediaById, updateStato, deleteMedia } from "../controllers/media.controller";
+
+const router = Router();
+
+router.use(authenticateJWT);
+
+router.post("/", saveMedia);
+router.get("/", getMyMedia);
+router.get("/:id", getMediaById);
+router.patch("/:id/stato", updateStato);
+router.delete("/:id", deleteMedia);
+
+export default router;
+

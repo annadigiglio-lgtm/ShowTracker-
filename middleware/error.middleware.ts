@@ -22,3 +22,42 @@
 //
 // Bonus: un secondo middleware "notFound" (req, res) per le rotte inesistenti
 // -> 404 "Rotta non trovata". Va messo dopo le rotte e prima di questo.
+
+import type { Request, Response, NextFunction } from "express";
+import { AppError } from "../utils/AppError";
+
+export const errorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err); // utile in sviluppo
+
+    let statusCode = 500;
+    let message = "Internal Server Error";
+
+    if (err instanceof AppError) {
+        statusCode = err.statusCode;
+        message = err.message;
+    } else if (err.name === "ValidationError") {
+        statusCode = 400;
+        message = "Validation Error";
+    } else if (err.name === "CastError") {
+        statusCode = 400;
+        message = "Invalid ID format";
+    } else if (err.code === 11000) {
+        statusCode = 409;
+        message = "Duplicate key error";
+    } else if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
+        statusCode = 401;
+        message = "Invalid or expired token";
+    } else {
+        statusCode = 500;
+        message = "Internal Server Error";
+    }
+
+    res.status(statusCode).json({
+        success: false,
+        error: {
+            message,
+            status: statusCode
+        }
+    });
+};
+

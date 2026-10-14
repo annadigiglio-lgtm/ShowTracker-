@@ -16,3 +16,15 @@
 //
 // Chi lo usa: controllers/auth.controller.ts (per firmare il token al login)
 // e config/passport.config.ts (per verificarlo). Devono usare LO STESSO secret.
+
+import dotenv from "dotenv";
+dotenv.config();
+
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    throw new Error("JWT_SECRET is not defined in environment variables");
+}
+
+const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "1h";
+
+export { jwtSecret, jwtExpiresIn };

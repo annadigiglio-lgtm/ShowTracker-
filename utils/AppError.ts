@@ -14,3 +14,14 @@
 //
 // P4 lo scrive per primo e lo mette su main presto,
 // così gli altri lo possono usare subito.
+
+export class AppError extends Error {
+    statusCode: number;
+
+    constructor(message: string, statusCode: number) {
+        super(message);
+        this.statusCode = statusCode;
+        Object.setPrototypeOf(this, AppError.prototype);
+    } 
+}
+

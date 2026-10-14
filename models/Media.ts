@@ -22,3 +22,25 @@
 // Nota: il vostro models/Saved.ts ha tre array (da_guardare, viste, preferiti).
 // Con questo modello lo "stato" visto/da vedere sta sul Media e le liste
 // personalizzate stanno in models/Lista.ts. Decidete insieme quale approccio tenere.
+
+import mongoose from "mongoose";
+
+const Media = mongoose.model(
+    "Media", new mongoose.Schema(
+        {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+            tmdbId: { type: Number, required: true },
+            tipo: { type: String, enum: ["movie", "tv"], required: true },
+            titolo: { type: String, required: true },
+            trama: { type: String },
+            posterUrl: { type: String },
+            dataUscita: { type: Date },
+            stato: { type: String, enum: ["da_vedere", "visto"], default: "da_vedere" }
+        }, 
+        { 
+            timestamps: true 
+        }
+    )
+);
+
+export default Media;

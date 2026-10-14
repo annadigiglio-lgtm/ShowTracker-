@@ -11,11 +11,18 @@
 //
 // Consigli:
 // - Indice unico su (user + media): una sola valutazione per utente per contenuto.
-//   Se l'utente vota di nuovo, si AGGIORNA (findOneAndUpdate con upsert: true).
-//
-// Alternativa più semplice: invece di un modello a parte, il voto può essere
-// un campo opzionale dentro models/Comment.ts. Scegliete una delle due.
+//   Se l'utente vota di nuovo, si AGGIORNA (findOneAndUpdate con upsert: true)..
 //
 // Nota sul vostro models/Comment.ts: oltre a timestamp e content serviranno
 // anche "user" (ref User) e "media" (ref Media), altrimenti non sapete
 // di chi è il commento e a quale film si riferisce.
+
+import mongoose from "mongoose";
+
+const Rating = mongoose.model("Rating", new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    media: { type: mongoose.Schema.Types.ObjectId, ref: "Media", required: true },
+    voto: { type: Number, required: true, min: 1, max: 10 },
+}, { timestamps: true }));
+
+export default Rating;

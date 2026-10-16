@@ -1,7 +1,12 @@
 // ============================================================
 // config/passport.config.ts  –  P1 (Gestione utenti)
+import passport from "passport";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+import { jwtSecret } from "./auth.config";
+import User from "../models/User";
 // ============================================================
 // Scopo: configurare Passport.js con la strategia JWT (Bearer Token).
+const estraiToken = ExtractJwt.fromAuthHeaderAsBearerToken();
 //
 // Pacchetti: passport, passport-jwt  (+ @types/passport, @types/passport-jwt)
 //
@@ -23,3 +28,31 @@
 // 5. Ricordarsi di importare questo file in app.ts e fare app.use(passport.initialize())
 //
 // Nota: con JWT NON servono sessioni -> { session: false } quando si autentica.
+
+passport.use(
+    new JwtStrategy(
+        {
+            jwtFromRequest: estraiToken,
+            secretOrKey: jwtSecret as string,
+            passReqToCallback: true,
+        },
+        async (req, payload, done) => {
+            try {
+                const utente = await User.findById(payload.id);
+
+                if (!utente) {
+                    return done(null, false);
+                }
+
+                const tokenRicevuto = estraiToken(req);
+                if (utente.token !== tokenRicevuto) {
+                    return done(null, false);
+                }
+
+                return done(null, utente);
+            } catch (errore) {
+                return done(errore, false);
+            }
+        }
+    )
+);

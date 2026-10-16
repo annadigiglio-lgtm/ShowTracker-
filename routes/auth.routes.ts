@@ -19,6 +19,7 @@ import { authenticateJWT } from "../middleware/auth.middleware";
 import bcrypt from "bcrypt";
 import User from "../models/User.ts";
 import jwt from "jsonwebtoken";
+import { jwtSecret } from "../config/auth.config";
 
 const router = Router();
 
@@ -61,8 +62,8 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Cercare l'utente nel database tramite l'email fornita
-        const user = await User.findOne({ email });
+        // Cercare l'utente nel da tabase tramite l'email fornita
+        const user = await User.findOne({ email }).select("+password");
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
@@ -76,13 +77,14 @@ router.post("/login", async (req, res) => {
         // Se le password corrispondono, generare un token JWT per l'utente con jwt.sign() 
         // (vedi controllers/auth.controller.ts) e restituirlo nella risposta
         const payload = { id: user._id, email: user.email };
-        const token = jwt.sign(payload, process.env.JWT_SECRET || "default_secret", {
+        const token = jwt.sign(payload, jwtSecret as string, {
             expiresIn: "1h", // Imposta la scadenza del token a 1 ora
         });
-
+        user.token = token;
+        await user.save();
         res.json({ 
             message: "User logged in", 
-            token: "Bearer " + token 
+            token: token
         });
     } catch (error) {
         res.status(500).json({ message: "Error logging in user", error });

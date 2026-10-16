@@ -27,7 +27,7 @@ router.use("/auth", authRoutes);
 router.use("/tmdb", tmdbRoutes);
 router.use("/media", mediaRoutes);
 router.use("/liste", listaRoutes);
-router.use("/", commentRoutes);
+router.use("/comments", commentRoutes);
 
 // Bonus: una rotta GET "/health" che risponde { status: "ok" },
 // comoda per controllare che il server sia acceso.

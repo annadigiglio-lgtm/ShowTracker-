@@ -20,8 +20,9 @@
 //    Se scegliete quella strada, questo file si può eliminare.
 // ============================================================
 
+import { Schema, model } from 'mongoose';
 
-const Saved = {
+const SavedSchema = new Schema({
     // ⚠️ Un solo timestamp per tutto il documento non dice QUANDO è stato
     //    aggiunto ogni film. Meglio { timestamps: true } su ogni Media.
     timestamp: Date,
@@ -29,9 +30,11 @@ const Saved = {
     // ❌ Array<Media> è una sintassi dei TIPI di TypeScript, qui siete dentro un
     //    OGGETTO (valori), quindi TypeScript dà errore. In uno schema mongoose
     //    un array di riferimenti si scrive come array con dentro { type: ObjectId, ref: "Media" }.
-    da_guardare: Array<Media>,
-    viste: Array<Media>,
-    preferiti: Array<Media>,
-}
+    da_guardare: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
+    viste: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
+    preferiti: [{ type: Schema.Types.ObjectId, ref: 'Media' }],
+});
+
+const Saved = model('Saved', SavedSchema);
 
 export { Saved };

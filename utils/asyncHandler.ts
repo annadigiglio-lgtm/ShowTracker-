@@ -12,3 +12,13 @@
 //
 // Nota: con Express 5 questo non serve più (gestisce da solo le Promise
 // rifiutate). Controllate quale versione installate.
+
+import type { Request, Response, NextFunction } from 'express';
+
+const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => Promise<void>) => {
+    return (req: Request, res: Response, next: NextFunction) => {
+        Promise.resolve(fn(req, res, next)).catch(next);
+    };
+};
+
+export { asyncHandler };

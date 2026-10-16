@@ -33,7 +33,7 @@ app.use(express.json()); // ✅ Serve per leggere req.body (altrimenti è undefi
 
 passport.initialize(); // ✅ Serve per usare Passport (autenticazione).
 
-app.use("/api", routes); // ❌ "routes" non è definito né importato da nessuna parte.
+app.use("/api", routes);
 
 // Middleware rotte non trovate
 app.use((req, res, next) => {

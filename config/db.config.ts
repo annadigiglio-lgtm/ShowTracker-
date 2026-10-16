@@ -16,15 +16,12 @@
 import mongoose from 'mongoose';
 
 async function connectDB(): Promise<void> {
-    try {
-        const mongoURI = process.env.MONGO_URI;
+    const mongoURI = process.env.MONGO_URI;
 
-        await mongoose.connect(mongoURI as string);
-        console.log('DB connesso');
-    } catch (error) {
-        console.error('Errore durante la connessione al database:', error);
-        process.exit(1); // Chiude il processo con codice di errore
-    }
+    await mongoose.connect(mongoURI as string, {
+        serverSelectionTimeoutMS: 5000, // Timeout di 5 secondi per la connessione
+        socketTimeoutMS: 45000, // Timeout di 45 secondi per le operazioni di rete
+    });
 }
 
 export { connectDB };
